@@ -11,6 +11,9 @@ pipeline {
             }
         }
         stage("Build image") {
+            agent {
+                docker
+            }
             steps {
                 script {
                     myapp = docker.build("udoyen/hello-jenkins:${env.BUILD_ID}")
@@ -18,6 +21,9 @@ pipeline {
             }
         }
         stage("Push image") {
+            agent {
+                docker
+            }
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', dockerInfo) {
