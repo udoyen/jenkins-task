@@ -11,11 +11,6 @@ pipeline {
             }
         }
         stage("Build image") {
-            agent {
-                docker {
-                    image 'ubuntu:bionic'
-                }
-            }
             steps {
                 script {
                     myapp = docker.build("udoyen/hello-jenkins:${env.BUILD_ID}")
@@ -23,11 +18,6 @@ pipeline {
             }
         }
         stage("Push image") {
-            agent {
-                docker {
-                    image 'ubuntu:bionic'
-                }
-            }
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', dockerInfo) {
