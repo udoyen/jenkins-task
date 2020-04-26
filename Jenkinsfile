@@ -12,7 +12,7 @@ pipeline {
         }
         stage("Build image") {
             agent {
-                docker
+                docker { image 'ubuntu:bionic'}
             }
             steps {
                 script {
@@ -22,7 +22,7 @@ pipeline {
         }
         stage("Push image") {
             agent {
-                docker
+                docker { image 'ubuntu:bionic'}
             }
             steps {
                 script {
