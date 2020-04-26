@@ -25,12 +25,14 @@ pipeline {
                             myapp.push("${env.BUILD_ID}")
                     }
                     
-            }
-        }        
+                }
+            }     
+        }   
         stage('Deploy to kubernetes') {
             steps{
                 sh "sed -i 's/hello-jenkins:latest/hello-jenkins:${env.BUILD_ID}/g' deployment.yaml"
             }
         }
+        
     }    
 }
