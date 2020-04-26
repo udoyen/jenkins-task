@@ -5,15 +5,17 @@ pipeline {
         githubInfo = 'github-token'
     }
     stages {
+        stage('Initialize'){ 
+            steps {
+                def dockerHome = tool 'myDocker'  env.PATH = "${dockerHome}/bin:${env.PATH}"    
+
+            }        
+        } 
         stage("Checkout code") {
             steps {
                 checkout scm
             }
         }
-        stage('Initialize'){         
-            def dockerHome = tool 'myDocker'         
-            env.PATH = "${dockerHome}/bin:${env.PATH}"    
-        } 
         stage("Build image") {
             steps {
                 script {
