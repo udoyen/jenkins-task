@@ -10,8 +10,11 @@ pipeline {
                 checkout scm
             }
         }
+        stage('Initialize'){         
+            def dockerHome = tool 'myDocker'         
+            env.PATH = "${dockerHome}/bin:${env.PATH}"    
+        } 
         stage("Build image") {
-            
             steps {
                 script {
                     myapp = docker.build("udoyen/hello-jenkins:${env.BUILD_ID}")
