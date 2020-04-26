@@ -13,7 +13,8 @@ pipeline {
         stage("Build image") {
             steps {
                 script {
-                    myapp = docker.build("udoyen/hello-jenkins:${env.BUILD_ID}")
+                    myapp = sh "/usr/bin/docker build -t udoyen/hello-jenkins:${env.BUILD_ID}"
+                    //myapp = docker.build("udoyen/hello-jenkins:${env.BUILD_ID}")
                 }
             }
         }
