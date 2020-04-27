@@ -14,16 +14,16 @@ pipeline {
             steps {
                 container('docker') {
                     //myapp = sh "/usr/bin/docker build -t udoyen/hello-jenkins:${env.BUILD_ID}"
-                    sh "myapp = docker.build("udoyen/hello-jenkins:${env.BUILD_ID}")"
+                    sh { myapp = docker.build("udoyen/hello-jenkins:${env.BUILD_ID}")}
                 }
             }
         }
         stage("Push image") {
             steps {
                 container('docker') {
-                    sh "docker.withRegistry('https://registry.hub.docker.com', dockerInfo) {
+                    sh { docker.withRegistry('https://registry.hub.docker.com', dockerInfo) {
                             myapp.push("latest")
-                            myapp.push("${env.BUILD_ID}")"
+                            myapp.push("${env.BUILD_ID}")}
                     }
                     
                 }
