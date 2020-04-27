@@ -12,7 +12,7 @@ pipeline {
         }
         stage("Build image") {
             steps {
-                script {
+                container('docker') {
                     //myapp = sh "/usr/bin/docker build -t udoyen/hello-jenkins:${env.BUILD_ID}"
                     myapp = docker.build("udoyen/hello-jenkins:${env.BUILD_ID}")
                 }
@@ -20,7 +20,7 @@ pipeline {
         }
         stage("Push image") {
             steps {
-                script {
+                container('docker') {
                     docker.withRegistry('https://registry.hub.docker.com', dockerInfo) {
                             myapp.push("latest")
                             myapp.push("${env.BUILD_ID}")
