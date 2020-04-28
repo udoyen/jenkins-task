@@ -12,8 +12,11 @@ pipeline {
         }
         stage("Build image") {
             agent {
-                label 'docker-agent'
-                image 'benhall/dind-jenkins-agent:v2'               
+                docker {
+                    label 'docker-agent'
+                    image 'benhall/dind-jenkins-agent:v2'               
+
+                }
             }
             steps {
                 script {
@@ -24,8 +27,11 @@ pipeline {
         }
         stage("Push image") {
             agent {
-                label 'docker-agent' 
-                image 'benhall/dind-jenkins-agent:v2'              
+                docker {
+                    label 'docker-agent' 
+                    image 'benhall/dind-jenkins-agent:v2'              
+
+                }  
             }
             steps {
                 script {
