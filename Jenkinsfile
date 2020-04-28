@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-        label 'docker-agent'
-    }
+    agent any
     environment {
         dockerInfo = 'dockerhub'
         githubInfo = 'github-token'
@@ -14,10 +12,7 @@ pipeline {
         }
         stage("Build image") {
             agent {
-                docker-agent {
-                    label 'docker-agent'
-                    image 'benhall/dind-jenkins-agent:v2'
-                }
+                label 'docker-agent'                
             }
             steps {
                 script {
@@ -28,10 +23,7 @@ pipeline {
         }
         stage("Push image") {
             agent {
-                docker-agent {
-                    label 'docker-agent'
-                    image 'benhall/dind-jenkins-agent:v2'
-                }
+                label 'docker-agent'                
             }
             steps {
                 script {
