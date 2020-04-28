@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent none
     environment {
         dockerInfo = 'dockerhub'
         githubInfo = 'github-token'
@@ -13,8 +13,7 @@ pipeline {
         stage("Build image") {
             agent {
                 docker {
-                label 'docker-agent'
-                image 'udoyen/dind-jenkins-agent:v2'               
+                    image 'udoyen/dind-jenkins-agent:v2'               
 
                 }
             }
@@ -28,7 +27,6 @@ pipeline {
         stage("Push image") {
             agent {
                 docker {
-                    label 'docker-agent' 
                     image 'udoyen/dind-jenkins-agent:v2'              
 
                 }  
