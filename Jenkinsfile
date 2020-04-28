@@ -11,7 +11,7 @@ pipeline {
             agent {
                 docker {
                     label 'docker-agent'
-                    image 'udoyen/dind-jenkins-agent'
+                    image 'udoyen/dind-jenkins-agent:v2'
                 }
             }
             steps {
@@ -19,7 +19,7 @@ pipeline {
                     //myapp = sh "/usr/bin/docker build -t udoyen/hello-jenkins:${env.BUILD_ID}"
                     // myapp = docker.build("udoyen/hello-jenkins:${env.BUILD_ID}")
                     sh "docker info"
-                    sh "docker build -t udoyen/hello-jenkins:${BUILD_NUMBER} ${WORKSPACE}/Dockerfile"
+                    sh "docker build -t udoyen/hello-jenkins:${BUILD_NUMBER} ."
                 }
                 // script {
                 //     docker.withRegistry('https://registry.hub.docker.com', dockerInfo) {
