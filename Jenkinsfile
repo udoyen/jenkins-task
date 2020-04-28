@@ -9,11 +9,7 @@ pipeline {
     stages {
         stage("Build image") {
             agent {
-                docker {
                 label 'docker-agent'
-                image 'udoyen/dind-jenkins-agent:v2'               
-
-                }
             }
             steps {
                 script {
@@ -24,11 +20,7 @@ pipeline {
         }
         stage("Push image") {
             agent {
-                docker {
-                    label 'docker-agent' 
-                    image 'udoyen/dind-jenkins-agent:v2'              
-
-                }  
+                label 'docker-agent'
             }
             steps {
                 script {
