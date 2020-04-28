@@ -1,5 +1,7 @@
 pipeline {
-    agent none
+    agent {
+        label 'docker-agent'
+    }
     environment {
         dockerInfo = 'dockerhub'
         githubInfo = 'github-token'
