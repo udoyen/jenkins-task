@@ -14,8 +14,6 @@ pipeline {
                     //myapp = sh "/usr/bin/docker build -t udoyen/hello-jenkins:${env.BUILD_ID}"
                     myapp = docker.build("udoyen/hello-jenkins:${env.BUILD_ID}")
                 }
-            }
-            steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', dockerInfo) {
                             myapp.push("latest")
@@ -23,7 +21,9 @@ pipeline {
                     }
                     
                 }
-            }     
+            }
+            
+        
         }
         stage('Deploy to kubernetes') {
             steps{
