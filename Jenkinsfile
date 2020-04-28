@@ -17,15 +17,17 @@ pipeline {
             steps {
                 script {
                     //myapp = sh "/usr/bin/docker build -t udoyen/hello-jenkins:${env.BUILD_ID}"
-                    myapp = docker.build("udoyen/hello-jenkins:${env.BUILD_ID}")
+                    // myapp = docker.build("udoyen/hello-jenkins:${env.BUILD_ID}")
+                    docker info
+                    docker build -t udoyen/hello-jenkins:${BUILD_NUMBER} .
                 }
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', dockerInfo) {
-                            myapp.push("latest")
-                            myapp.push("${env.BUILD_ID}")
-                    }
+                // script {
+                //     docker.withRegistry('https://registry.hub.docker.com', dockerInfo) {
+                //             myapp.push("latest")
+                //             myapp.push("${env.BUILD_ID}")
+                //     }
                     
-                }
+                // }
             }
             
         
