@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        label 'docker-agent'
+    }
     environment {
         dockerInfo = 'dockerhub'
         githubInfo = 'github-token'
@@ -11,6 +13,12 @@ pipeline {
             }
         }
         stage("Build image") {
+            agent {
+                docker {
+                    label 'docker-agent'
+                    image 'benhall/dind-jenkins-agent:v2'
+                }
+            }
             steps {
                 script {
                     //myapp = sh "/usr/bin/docker build -t udoyen/hello-jenkins:${env.BUILD_ID}"
@@ -19,6 +27,10 @@ pipeline {
             }
         }
         stage("Push image") {
+            agent {
+                label 'docker-agent'
+                image 'benhall/dind-jenkins-agent:v2'
+            }
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', dockerInfo) {
