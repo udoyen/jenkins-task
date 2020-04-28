@@ -14,7 +14,6 @@ pipeline {
             agent {
                 docker {
                     label 'docker-agent'
-                    image 'benhall/dind-jenkins-agent:v2'               
 
                 }
             }
@@ -29,7 +28,6 @@ pipeline {
             agent {
                 docker {
                     label 'docker-agent' 
-                    image 'benhall/dind-jenkins-agent:v2'              
 
                 }  
             }
