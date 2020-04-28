@@ -1,57 +1,44 @@
 pipeline {
-    agent any
+    
     environment {
-        dockerInfo = 'dockerhub'
-        githubInfo = 'github-token'
+    registry = "udoyen/hello-jenkins"
+    registryCredential = 'dockerhub'
+    }  
+  agent any  
+  stages {
+    stage('Cloning Git') {
+      steps {
+        git 'https://github.com/udoyen/jenkins-task.git'
+      }
     }
-    stages {
-        stage("Build image") {
-            agent {
-                docker {
-                    label 'docker-agent'
-                    image 'udoyen/dind-jenkins-agent:v2'
-
-                }
-
-            }
-            steps {
-                script {
-                    //myapp = sh "/usr/bin/docker build -t udoyen/hello-jenkins:${env.BUILD_ID}"
-                    // myapp = docker.build("udoyen/hello-jenkins:${env.BUILD_ID}")
-                    sh "docker info"
-                    sh "docker build -t udoyen/hello-jenkins:${BUILD_NUMBER} ."
-                }
-                // script {
-                    
-                // }
-            }
-            
-        
+    stage('Building image') {
+      agent {
+          docker {
+              label 'docker-agent'
+              image 'udoyen/dind-jenkins-agent:v2'
+          }
+      }
+      steps{
+        script {
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+          
         }
-        stage("Push image") {
-            agent {
-                docker {
-                    label 'docker-agent' 
-                    image 'udoyen/dind-jenkins-agent:v2'              
-  
-                }  
-            }
-            steps {
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', dockerInfo) {
-                            myapp.push("latest")
-                            myapp.push("${env.BUILD_ID}")
-                    }
-                    
-                    
-                }
-            }     
-        }   
-        stage('Deploy to kubernetes') {
-            steps{
-                sh "sed -i 's/hello-jenkins:latest/hello-jenkins:${env.BUILD_ID}/g' deployment.yaml"
+      }
+    }
+    stage('Deploy Image') {
+        agent {
+            docker {
+                label 'docker-agent'
+                image 'udoyen/dind-jenkins-agent:v2'
             }
         }
-        
-    }    
+        steps{    
+              script {
+              docker.withRegistry( '', registryCredential ) {
+                dockerImage.push()
+              }
+            }
+        }
+    }
+  }
 }
