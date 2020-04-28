@@ -2,13 +2,17 @@ pipeline {
   agent none
   stages {
     stage('Docker Build') {
-      agent any
+      agent {
+          label 'docker-agent'
+      }
       steps {
         sh 'docker build -t udoyen/hello-jenkins:latest .'
       }
     }
     stage('Docker Push') {
-      agent any
+      agent {
+          label 'docker-agent'
+      }
       steps {
         withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerhubPassword', usernameVariable: 'dockerhubUser')]) {
           sh "docker login -u ${env.dockerhubUser} -p ${env.dockerhubPassword}"
