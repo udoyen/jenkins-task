@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-        label 'docker-agent'
-    }
+    agent none
     environment {
         dockerInfo = 'dockerhub'
         githubInfo = 'github-token'
@@ -9,18 +7,13 @@ pipeline {
     stages {
         stage("Build image") {
             agent {
-                label 'docker-agent'
+                image 'udoyen/dind-jenkins-agent:v2'
             }
             steps {
                 script {
                     //myapp = sh "/usr/bin/docker build -t udoyen/hello-jenkins:${env.BUILD_ID}"
                     myapp = docker.build("udoyen/hello-jenkins:${env.BUILD_ID}")
                 }
-            }
-        }
-        stage("Push image") {
-            agent {
-                label 'docker-agent'
             }
             steps {
                 script {
@@ -31,7 +24,7 @@ pipeline {
                     
                 }
             }     
-        }   
+        }
         stage('Deploy to kubernetes') {
             steps{
                 sh "sed -i 's/hello-jenkins:latest/hello-jenkins:${env.BUILD_ID}/g' deployment.yaml"
