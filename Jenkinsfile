@@ -6,11 +6,11 @@ pipeline {
     }  
   agent any  
   stages {
-    stage('Cloning Git') {
-      steps {
-        git 'https://github.com/udoyen/jenkins-task.git'
-      }
-    }
+    // stage('Cloning Git') {
+    //   steps {
+    //     git 'https://github.com/udoyen/jenkins-task.git'
+    //   }
+    // }
     stage('Building image') {
       agent {
           docker {
