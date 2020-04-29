@@ -39,4 +39,4 @@ spec:
     selector:
         app: hello-jenkins
         tier: hello-jenkins
-        type: LoadBalancer
+    type: LoadBalancer

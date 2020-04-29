@@ -6,18 +6,7 @@ pipeline {
     }  
   agent any  
   stages {
-    // stage('Cloning Git') {
-    //   steps {
-    //     git 'https://github.com/udoyen/jenkins-task.git'
-    //   }
-    // }
     stage('Building image') {
-      // agent {
-      //     docker {
-      //         label 'docker-agent'
-      //         image 'udoyen/dind-jenkins-agent:v2'
-      //     }
-      // }
       steps{
         script {
           dockerImage = docker.build registry + ":$BUILD_NUMBER"
@@ -26,12 +15,6 @@ pipeline {
       }
     }
     stage('Deploy Image') {
-        // agent {
-        //     docker {
-        //         label 'docker-agent'
-        //         image 'udoyen/dind-jenkins-agent:v2'
-        //     }
-        // }
         steps{    
               script {
               docker.withRegistry( '', registryCredential ) {
@@ -39,6 +22,16 @@ pipeline {
               }
             }
         }
+    }
+
+    stage('Deploy to kubernetes') {
+      steps{
+        script {
+          sh "sed -i 's/hello:latest/hello:${env.BUILD_NUMBER}/g' deployment.yaml"
+          sh "kubectl get pods"
+
+        }
+      }
     }
   }
 }
