@@ -12,12 +12,12 @@ pipeline {
     //   }
     // }
     stage('Building image') {
-      agent {
-          docker {
-              label 'docker-agent'
-              image 'udoyen/dind-jenkins-agent:v2'
-          }
-      }
+      // agent {
+      //     docker {
+      //         label 'docker-agent'
+      //         image 'udoyen/dind-jenkins-agent:v2'
+      //     }
+      // }
       steps{
         script {
           dockerImage = docker.build registry + ":$BUILD_NUMBER"
@@ -26,12 +26,12 @@ pipeline {
       }
     }
     stage('Deploy Image') {
-        agent {
-            docker {
-                label 'docker-agent'
-                image 'udoyen/dind-jenkins-agent:v2'
-            }
-        }
+        // agent {
+        //     docker {
+        //         label 'docker-agent'
+        //         image 'udoyen/dind-jenkins-agent:v2'
+        //     }
+        // }
         steps{    
               script {
               docker.withRegistry( '', registryCredential ) {
