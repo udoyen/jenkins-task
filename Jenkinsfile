@@ -28,7 +28,7 @@ pipeline {
       steps{
         script {
           sh "sed -i 's/hello:latest/hello:${env.BUILD_NUMBER}/g' deployment.yaml"
-          sh "kubectl get pods"
+          sh "kubectl get services"
 
         }
       }
