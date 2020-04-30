@@ -28,7 +28,11 @@ pipeline {
       steps{
         script {
           sh "sed -i 's/hello:latest/hello:${env.BUILD_NUMBER}/g' deployment.yaml"
-          sh "kubectl get services"
+          sh '''
+              eval $(minikube docker-env);
+              kubectl get services;
+
+            '''
 
         }
       }
