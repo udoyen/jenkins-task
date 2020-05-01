@@ -8,26 +8,25 @@ pipeline {
   agent none 
   stages {
     stage('Building image') {
-      agent {
-          docker dockerImageUsed
-      }
-      steps{
-        script {
-          dockerImage = docker.build registry + ":$BUILD_NUMBER"
-          
+      container('jnlp') {
+        steps{
+          script {
+            dockerImage = docker.build registry + ":$BUILD_NUMBER"
+            
+          }
         }
       }
     }
     stage('Deploy Image') {
-        agent {
-          docker dockerImageUsed
-        }
-        steps{    
-              script {
-              docker.withRegistry( '', registryCredential ) {
-                dockerImage.push()
+        container('jnlp') {
+          steps{    
+                script {
+                docker.withRegistry( '', registryCredential ) {
+                  dockerImage.push()
+                }
               }
-            }
+          }
+
         }
     }
 
