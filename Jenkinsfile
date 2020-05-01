@@ -24,6 +24,19 @@ spec:
        path: /var/run/docker.sock
 '''
 		}
+
+    kubectl {
+      yaml '''
+      apiVersion: v1
+      kind: Pod
+      spec:
+         containers:
+         - name: kubectl
+         image: lachlanevenson/k8s-kubectl:v1.8.8
+         command: ['cat']
+         tty: true
+      '''
+    }
 	}
 
    stages {
@@ -42,6 +55,16 @@ spec:
             }
 		  }
 	}
+
+  stage {
+    stage('Deploy To Kubernetes') {
+      steps {
+          container('kubctl') {
+            sh 'kubectl get pods'
+          }
+      }
+    }
+  }
 
  }
 
