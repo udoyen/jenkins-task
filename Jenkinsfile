@@ -5,7 +5,7 @@ pipeline {
     registryCredential = 'dockerhub'
     dockerImageUsed = 'benhall/dind-jenkins-agent:v2'
     }  
-  agent none 
+  agent any
   stages {
     stage('Building image') {
       container('jnlp') {
