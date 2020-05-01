@@ -4,9 +4,12 @@ pipeline {
     registry = "udoyen/hello-jenkins"
     registryCredential = 'dockerhub'
     }  
-  agent any  
+  agent none 
   stages {
     stage('Building image') {
+      agent {
+          label 'docker-agent'
+      }
       steps{
         script {
           dockerImage = docker.build registry + ":$BUILD_NUMBER"
@@ -15,6 +18,9 @@ pipeline {
       }
     }
     stage('Deploy Image') {
+        agent {
+          label 'docker-agent'
+        }
         steps{    
               script {
               docker.withRegistry( '', registryCredential ) {
