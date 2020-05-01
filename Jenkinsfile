@@ -5,28 +5,29 @@ pipeline {
     registryCredential = 'dockerhub'
     dockerImageUsed = 'benhall/dind-jenkins-agent:v2'
     }  
-  agent any
+  agent none 
   stages {
     stage('Building image') {
-      container('jnlp') {
-        steps{
-          script {
-            dockerImage = docker.build registry + ":$BUILD_NUMBER"
-            
-          }
+      agent {
+          label 'jnlp'
+      }
+      steps{
+        script {
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+          
         }
       }
     }
     stage('Deploy Image') {
-        container('jnlp') {
-          steps{    
-                script {
-                docker.withRegistry( '', registryCredential ) {
-                  dockerImage.push()
-                }
+        agent {
+          label 'jnlp'
+        }
+        steps{    
+              script {
+              docker.withRegistry( '', registryCredential ) {
+                dockerImage.push()
               }
-          }
-
+            }
         }
     }
 
