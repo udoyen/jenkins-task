@@ -4,6 +4,7 @@ pipeline {
     registry = "udoyen/hello-jenkins"
     registryCredential = 'dockerhub'
     dockerImageUsed = 'benhall/dind-jenkins-agent:v2'
+    def dockerImage = ''
     }  
   agent none 
   stages {
