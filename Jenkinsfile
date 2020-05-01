@@ -9,7 +9,7 @@ pipeline {
   stages {
     stage('Building image') {
       agent {
-          docker 'docker:1.11'
+          docker { image 'docker:1.11' }
       }
       steps{
         script {
@@ -20,7 +20,7 @@ pipeline {
     }
     stage('Deploy Image') {
         agent {
-          docker 'docker:1.11'
+          docker { image 'docker:1.11' }
         }
         steps{    
               script {
