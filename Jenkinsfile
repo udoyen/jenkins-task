@@ -3,12 +3,13 @@ pipeline {
     environment {
     registry = "udoyen/hello-jenkins"
     registryCredential = 'dockerhub'
+    dockerImageUsed = 'benhall/dind-jenkins-agent:v2'
     }  
   agent none 
   stages {
     stage('Building image') {
       agent {
-          label 'docker-agent'
+          docker dockerImageUsed
       }
       steps{
         script {
@@ -19,7 +20,7 @@ pipeline {
     }
     stage('Deploy Image') {
         agent {
-          label 'docker-agent'
+          docker dockerImageUsed
         }
         steps{    
               script {
