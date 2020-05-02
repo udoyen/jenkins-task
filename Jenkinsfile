@@ -23,7 +23,7 @@ podTemplate(label: 'mypod', containers: [
             }
         }
 
-	stage('kubectl version') {
+	stage('kubernetes Deployment') {
            
             container('kubectl') {
                  sh "kubectl apply -f ${WORKSPACE}/deployment.yaml"
