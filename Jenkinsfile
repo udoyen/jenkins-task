@@ -26,7 +26,7 @@ podTemplate(label: 'mypod', containers: [
 	stage('kubernetes Deployment') {
            
             container('kubectl') {
-                 sh "sed -i 's/image:\s*udoyen\/hello-jenkins/image: udoyen\/hello-jenkins:${BUILD_NUMBER}/g'"
+                 sh "sed -i 's/image:\s*udoyen\/hello-jenkins/image: udoyen\/hello-jenkins:${BUILD_NUMBER}/g' ${WORKSPACE}/deployment.yaml"
                  sh "kubectl apply -f ${WORKSPACE}/deployment.yaml"
                  sh "kubectl apply -f ex.yaml"
           
