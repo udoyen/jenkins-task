@@ -19,8 +19,9 @@ spec:
        path: /var/run/docker.sock
 '''
 		}
-
-    kubectl {
+	}
+   agent {
+         kubectl {
       yaml '''
       apiVersion: v1
       kind: Pod
@@ -32,7 +33,7 @@ spec:
          tty: true
       '''
     }
-	}
+      }
   stages {
     stage('Build and deploy') {
       steps {
