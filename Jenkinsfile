@@ -18,9 +18,21 @@ spec:
      hostPath:
        path: /var/run/docker.sock
 '''
-    }
+		}
 
-  }
+    kubectl {
+      yaml '''
+      apiVersion: v1
+      kind: Pod
+      spec:
+         containers:
+         - name: kubectl
+         image: lachlanevenson/k8s-kubectl:v1.8.8
+         command: ['cat']
+         tty: true
+      '''
+    }
+	}
   stages {
     stage('Build and deploy') {
       steps {
@@ -32,16 +44,27 @@ spec:
               dockerImage.push()
             }
           }
-
         }
-
+       
       }
+
     }
 
+    stage {
+      stage('Deploy To Kubernetes') {
+        steps {
+          container('kubctl') {
+            sh 'kubectl get pods'
+          }
+       }
+     }
+   }
+
   }
+    
   environment {
     registry = 'udoyen/hello-jenkins'
     registryCredential = 'dockerhub'
     dockerImage = ''
-  }
+      }
 }
