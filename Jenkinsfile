@@ -1,4 +1,8 @@
 pipeline {
+  agent none
+   
+  stages {
+    stage('Build and deploy') {
   agent {
     kubernetes {
       yaml ''' 
@@ -18,22 +22,8 @@ spec:
      hostPath:
        path: /var/run/docker.sock
 '''
-
-yaml '''
-      apiVersion: v1
-      kind: Pod
-      spec:
-         containers:
-         - name: kubectl
-         image: lachlanevenson/k8s-kubectl:v1.8.8
-         command: ['cat']
-         tty: true
-      '''
 		}
 	}
-   
-  stages {
-    stage('Build and deploy') {
       steps {
         git 'https://github.com/udoyen/jenkins-task.git'
         container(name: 'docker') {
@@ -50,6 +40,21 @@ yaml '''
     }
 
     stage {
+      agent {
+        kubernetes {
+          
+yaml '''
+      apiVersion: v1
+      kind: Pod
+      spec:
+         containers:
+         - name: kubectl
+         image: lachlanevenson/k8s-kubectl:v1.8.8
+         command: ['cat']
+         tty: true
+      '''
+        }
+      }
       stage('Deploy To Kubernetes') {
         steps {
           container('kubctl') {
