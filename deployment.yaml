@@ -19,7 +19,7 @@ spec:
         spec:
             containers:
             - name: hello-jenkins
-              image: udoyen/hello-jenkins:latest
+              image: udoyen/hello-jenkins
               imagePullPolicy: Always
               ports:
               - containerPort: 5000
