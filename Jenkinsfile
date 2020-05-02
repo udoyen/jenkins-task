@@ -18,11 +18,8 @@ spec:
      hostPath:
        path: /var/run/docker.sock
 '''
-		}
-	}
-   agent {
-         kubernetes {
-      yaml '''
+
+yaml '''
       apiVersion: v1
       kind: Pod
       spec:
@@ -32,8 +29,9 @@ spec:
          command: ['cat']
          tty: true
       '''
-    }
-      }
+		}
+	}
+   
   stages {
     stage('Build and deploy') {
       steps {
