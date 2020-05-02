@@ -5,7 +5,7 @@ metadata:
     labels:
         app: hello-jenkins
 spec:
-    replicas: 2
+    replicas: 1
     selector:
         matchLabels:
             app: hello-jenkins
@@ -24,19 +24,3 @@ spec:
               ports:
               - containerPort: 5000
                 name: hello-jenkins
-
----
-apiVersion: v1
-kind: Service
-metadata:
-    name: hello-jenkins
-    labels:
-        app: hello-jenkins
-spec:
-    ports:
-    - port: 5000
-      targetPort: 5000
-    selector:
-        app: hello-jenkins
-        tier: hello-jenkins
-    type: LoadBalancer
