@@ -26,7 +26,7 @@ podTemplate(label: 'mypod', containers: [
 	stage('kubernetes Deployment') {
            
             container('kubectl') {
-                 sh "kubectl create -f ${WORKSPACE}/deployment.yaml"
+                 sh "kubectl create --validate=false -f ${WORKSPACE}/deployment.yaml"
           
             }
 
