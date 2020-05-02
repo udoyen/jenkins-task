@@ -39,7 +39,7 @@ spec:
 
     }
 
-    stage {
+    stage('Deploy To Kubernetes') {
       agent {
         kubernetes {
           
@@ -55,14 +55,12 @@ yaml '''
       '''
         }
       }
-      stage('Deploy To Kubernetes') {
         steps {
           container('kubctl') {
             sh 'kubectl get pods'
           }
        }
      }
-   }
 
   }
     
