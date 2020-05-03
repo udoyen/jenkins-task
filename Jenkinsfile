@@ -10,7 +10,7 @@ podTemplate(label: 'mypod', containers: [
     registryCredential = 'dockerhub'
     dockerImage = ''
     node('mypod') {
-        stage('Check running containers') {
+        stage('Build and Push to dockerhub') {
             git 'https://github.com/udoyen/jenkins-task.git'
             container('docker') {
                 // example to show you can run docker commands when you mount the socket
