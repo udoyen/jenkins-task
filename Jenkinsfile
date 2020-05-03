@@ -30,11 +30,10 @@ podTemplate(label: 'mypod', containers: [
                  sh "sed -i 's/image:\\s*udoyen\\/hello-jenkins/image: udoyen\\/hello-jenkins:${BUILD_NUMBER}/g' ${WORKSPACE}/deployment.yaml"
                  // Check to see if the deployment exists and if it does just apply changes else
                  // create a new one
-                 sh "kubectl create --dry-run=true -o yaml -f ${WORKSPACE}/deployment.yaml | kubectl apply -f -"
-                //  sh "kubectl apply -f ${WORKSPACE}/deployment.yaml"
+                 sh "kubectl create --dry-run=client -o yaml -f ${WORKSPACE}/deployment.yaml | kubectl apply -f -"
                  // Check to see if the service exists and if it does just apply changed else
                  // create a new service
-                 sh "kubectl create --dry-run=true -o yaml -f ${WORKSPACE}/service.yaml | kubectl apply -f -"
+                 sh "kubectl create --dry-run=client -o yaml -f ${WORKSPACE}/service.yaml | kubectl apply -f -"
           
             }
 
